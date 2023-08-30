@@ -12,7 +12,8 @@ async function getData(url) {
     // console.log(times);
 
     const minYear = d3.min(years);
-    const maxYear = d3.max(years);
+    const maxYear = d3.max(years) ;
+    console.log(maxYear)
 
     const width = 600;
     const height = 400;
@@ -22,8 +23,10 @@ async function getData(url) {
       .scaleTime()
       .domain([new Date(minYear), new Date(maxYear)])
       .range([padding, width - padding]);
-
+    // console.log(minYear)
+    // console.log(xScale(new Date(minYear)))
     // const t = Date.now()
+    console.log(times);
     const timeFormat = d3.timeFormat("%M:%S");
     const parsedTime = times.map((d) => d3.timeParse("%M:%S")(d));
     const minTime = d3.min(parsedTime);
@@ -34,12 +37,16 @@ async function getData(url) {
     // console.log("--------------------");
     // console.log(minTime);
     // console.log(maxTime);
+    // console.log("converting to scale");
     const yScale = d3
       .scaleTime()
       // .domain([t - (1 * 1000), t + (1 * 1000)])
       .domain([minTime, maxTime])
       .range([padding, height - padding]);
 
+    // console.log(yScale(minTime));
+    // console.log(d3.timeParse("%M:%S")("33:02"), " call the parser");
+    // console.log(yScale(d3.timeParse("%M:%S")("36:50")), " converted to yScale");
     const container = d3
       .select("#container")
       .attr("width", width)
@@ -54,11 +61,15 @@ async function getData(url) {
       .enter()
       .append("circle")
       .attr("class", "dot")
-      .attr("data-xvalue", (d) => xScale(d.Year))
-      .attr("data-yvalue", (d) =>yScale(d.Time) )
-      .attr("cx", (d) => xScale(d.Year))
-      .attr("cy", (d) =>yScale(d.Time) )
-      .attr("r", 5)
+      .attr("data-xvalue", (d) => d.Year)
+      .attr("data-yvalue", (d) => d.Time)
+      .attr("cx", (d) => {
+        return xScale(new Date(String(d.Year))) + padding;
+      })
+      .attr("cy", (d) => {
+        return yScale(d3.timeParse("%M:%S")(d.Time));
+      })
+      .attr("r", 5);
 
     container
       .append("g")
