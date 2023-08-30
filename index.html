@@ -4,10 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bicycle Racing Doping</title>
-    
+    <script type="module" src="./node_modules/d3/dist/d3.js"></script>
+    <!-- <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.js"></script> -->
+    <script type="module" src="./node_modules/axios/dist/axios.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script> -->
+    <script type="module" src="./main.js"></script>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    
+    <main class="main">
+      <header>
+        <h1 id="title">Doping in Professional Bicycle Racing</h1>
+        <p id="subtitle"><span>35</span> Fastest times up Alpe d'Huez</p>
+      </header>
+
+      <svg id="container"></svg>
+    </main>
+    <script src="./tests/bundle.js"></script>
+    <!-- <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script> -->
   </body>
 </html>
