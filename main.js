@@ -8,12 +8,12 @@ async function getData(url) {
 
     const years = cyclistData.map((data) => String(data["Year"]));
     const times = cyclistData.map((data) => data["Time"]);
-    // console.log(cyclistData);
-    // console.log(times);
+    console.log(cyclistData);
+    console.log(times);
 
     const minYear = d3.min(years);
     const maxYear = d3.max(years) ;
-    console.log(maxYear)
+    // console.log(maxYear)
 
     const width = 600;
     const height = 400;
@@ -36,7 +36,9 @@ async function getData(url) {
     // console.log(parsedTime);
     // console.log("--------------------");
     // console.log(minTime);
+    // console.log(typeof minTime);
     // console.log(maxTime);
+    // console.log(typeof maxTime);
     // console.log("converting to scale");
     const yScale = d3
       .scaleTime()
@@ -44,9 +46,7 @@ async function getData(url) {
       .domain([minTime, maxTime])
       .range([padding, height - padding]);
 
-    // console.log(yScale(minTime));
-    // console.log(d3.timeParse("%M:%S")("33:02"), " call the parser");
-    // console.log(yScale(d3.timeParse("%M:%S")("36:50")), " converted to yScale");
+
     const container = d3
       .select("#container")
       .attr("width", width)
@@ -61,10 +61,19 @@ async function getData(url) {
       .enter()
       .append("circle")
       .attr("class", "dot")
-      .attr("data-xvalue", (d) => d.Year)
-      .attr("data-yvalue", (d) => d.Time)
+      .attr("data-xvalue", (d) => {
+        // console.log(d.Year, " year");
+        // console.log(typeof d.Year, " year type");
+        
+        return d.Year})
+      .attr("data-yvalue", (d) => {
+        console.log(d.Time, " time")
+        console.log(typeof d.Time, " time type")
+        console.log(d.Time, " time type")
+        return d3.timeFormat(d3.timeParse(d.Time))
+      })
       .attr("cx", (d) => {
-        return xScale(new Date(String(d.Year))) + padding;
+        return xScale(new Date(String(d.Year)));
       })
       .attr("cy", (d) => {
         return yScale(d3.timeParse("%M:%S")(d.Time));
